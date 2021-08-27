@@ -1,0 +1,23 @@
+
+{  "name": "Automation Service Skeleton",
+    "description": "Automation Service with FastAPI",
+    "keywords": [
+      "python",
+      "fastapi",
+      "automation_service"
+    ],
+    "website": "https://erewhon.bob",
+    "repository": "https://github.com/citihub",
+    "success_url": "/health-check",
+    "env": {
+        
+    },
+    "stack" : "container",
+    "environments": {
+      "test": {
+        "scripts": {
+          "test": "pytest"
+        }
+      }
+    }
+  }
