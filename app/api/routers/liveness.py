@@ -5,6 +5,6 @@ from fastapi.responses import PlainTextResponse
 router = APIRouter()
 
 
-@router.get("/", status_code=200)
+@router.get("", status_code=200)
 async def health():
     return {"Message": "i am alive"}

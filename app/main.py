@@ -1,5 +1,5 @@
 from fastapi import Depends, FastAPI, Header, HTTPException
-from .api.routers import liveness
+from api.routers import liveness
 
 app = FastAPI(
     title="FastApi Skeleton",
