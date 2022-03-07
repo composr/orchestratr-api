@@ -1,10 +1,12 @@
 from fastapi import Depends, FastAPI, Header, HTTPException
-from api.routers import liveness
+from app.liveness import liveness
+from app.workflow import wf_router
 
 app = FastAPI(
-    title="FastApi Skeleton",
-    description="A Boilerplate FastApi project",
-    version="1.0",
+    title="Orchestratr API",
+    description="An API wrapper atop an underlying execution engine, in this case Prefect",
+    version="0.1",
 )
 
 app.include_router(liveness.router, prefix="/liveness")
+app.include_router(wf_router.router, prefix="/workflow")
