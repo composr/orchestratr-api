@@ -1,5 +1,10 @@
 name: CodeCov
-on: [pull_request]
+on:
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches: [ develop ]
+    
 jobs:
   run:
     runs-on: ubuntu-latest
