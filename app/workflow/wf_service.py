@@ -1,4 +1,5 @@
 from prefect import Client
+from fastapi import HTTPException
 
 prefect_server = "http://20.185.237.231:4200/graphql"
 
@@ -23,9 +24,11 @@ def prefect_flow(name):
                 }
             }
         '''
+
+        id = client.graphql(flowId_by_name, variables={'name': name})
+        flow_run = client.create_flow_run(flow_id = id['data']['flow'][0]['id'])
+        return flow_run
+    
     except:
-        print("Flow not found")
-        
-    id = client.graphql(flowId_by_name, variables={'name': name})
-    flow_run = client.create_flow_run(flow_id = id['data']['flow'][0]['id'])
-    return flow_run
+        raise HTTPException(status_code=404, detail="Flow not found")
+ 
