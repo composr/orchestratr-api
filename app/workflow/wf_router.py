@@ -19,7 +19,7 @@ async def start_wf(request: StartWorkflowRequest):
 async def start_topology_wf(request: Topology):
     return WorkflowResponse(correlation_id = '', namespace = request.namespace, status = "In Progress")
 
-@router.post("/{name}")
-async def prefect_run_flow(name):
-    run_id = prefect_flow(name)
+@router.post("/{projectName}/{flowName}")
+async def prefect_run_flow(projectName, flowName):
+    run_id = prefect_flow(projectName, flowName)
     return run_id

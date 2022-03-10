@@ -9,14 +9,28 @@ client = Client(
 )
 
 # Get the flow id of latest version using flow name
-def prefect_flow(name):
+def prefect_flow(projectName, flowName):
     try: 
+        projectID_by_name = '''
+            query projectByName($projectName: String)
+            {
+                project(
+                    where: {
+                        name: {_eq: $projectName}
+                    }
+                )
+                {
+                    id
+                }
+            }
+        '''
         flowId_by_name = '''
-            query flowByName($name: String)
+            query flowByName($name: String, $projectId: uuid)
             {
                 flow(
                     where: {
-                        name: {_eq: $name}
+                        name: {_eq: $name},
+                        project_id: {_eq: $projectId}
                     },
                     order_by: {version: desc},
                     limit: 1,
@@ -27,7 +41,9 @@ def prefect_flow(name):
             }
         '''
 
-        id = client.graphql(flowId_by_name, variables={'name': name})
+        project_id = client.graphql(projectID_by_name, variables={'projectName': projectName})
+        id = client.graphql(flowId_by_name, variables={'name': flowName, 'projectId': project_id['data']['project'][0]['id']})
+
         flow_run = client.create_flow_run(flow_id = id['data']['flow'][0]['id'])
         return flow_run
     
