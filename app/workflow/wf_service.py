@@ -1,22 +1,20 @@
 from prefect import Client
 from fastapi import HTTPException
-
-# Replace with Prefect server host:port
-prefect_server = "http://20.25.85.193:4200/graphql"
+from config import settings
 
 client = Client(
-    api_server = prefect_server
+    api_server = settings.prefect_server
 )
 
 # Get the flow id of latest version using flow name
-def prefect_flow(projectName, flowName):
+def prefect_flow(project_name, flow_name):
     try: 
-        projectID_by_name = '''
-            query projectByName($projectName: String)
+        project_id_by_name = '''
+            query project_by_name($project_name: String)
             {
                 project(
                     where: {
-                        name: {_eq: $projectName}
+                        name: {_eq: $project_name}
                     }
                 )
                 {
@@ -24,13 +22,17 @@ def prefect_flow(projectName, flowName):
                 }
             }
         '''
-        flowId_by_name = '''
-            query flowByName($name: String, $projectId: uuid)
+    except:
+        raise HTTPException(status_code=404, detail="Project not found")
+
+    try:
+        flow_id_by_name = '''
+            query flow_by_name($name: String, $project_id: uuid)
             {
                 flow(
                     where: {
                         name: {_eq: $name},
-                        project_id: {_eq: $projectId}
+                        project_id: {_eq: $project_id}
                     },
                     order_by: {version: desc},
                     limit: 1,
@@ -41,13 +43,12 @@ def prefect_flow(projectName, flowName):
             }
         '''
 
-        project_id = client.graphql(projectID_by_name, variables={'projectName': projectName})
-        id = client.graphql(flowId_by_name, variables={'name': flowName, 'projectId': project_id['data']['project'][0]['id']})
+        project_id = client.graphql(project_id_by_name, variables={'project_name': project_name})
+        id = client.graphql(flow_id_by_name, variables={'name': flow_name, 'project_id': project_id['data']['project'][0]['id']})
 
         flow_run = client.create_flow_run(flow_id = id['data']['flow'][0]['id'])
         return flow_run
     
     except:
-        # If flow name doesn't exist, return HTTP 404
-        raise HTTPException(status_code=404, detail="Flow not found")
+        raise HTTPException(status_code=404, detail="Project or Flow not found")
  
