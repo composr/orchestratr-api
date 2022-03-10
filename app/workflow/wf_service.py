@@ -1,12 +1,14 @@
 from prefect import Client
 from fastapi import HTTPException
 
-prefect_server = "http://20.185.237.231:4200/graphql"
+# Replace with Prefect server host:port
+prefect_server = "http://20.25.85.193:4200/graphql"
 
 client = Client(
     api_server = prefect_server
 )
 
+# Get the flow id of latest version using flow name
 def prefect_flow(name):
     try: 
         flowId_by_name = '''
@@ -30,5 +32,6 @@ def prefect_flow(name):
         return flow_run
     
     except:
+        # If flow name doesn't exist, return HTTP 404
         raise HTTPException(status_code=404, detail="Flow not found")
  
