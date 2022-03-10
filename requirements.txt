@@ -61,3 +61,6 @@ urllib3==1.26.6; python_version >= "2.7" and python_full_version < "3.0.0" or py
 uvicorn==0.15.0 \
     --hash=sha256:17f898c64c71a2640514d4089da2689e5db1ce5d4086c2d53699bf99513421c1 \
     --hash=sha256:d9a3c0dd1ca86728d3e235182683b4cf94cd53a867c288eaeca80ee781b2caff
+prefect==1.1.0 \
+    --hash=sha256:76bab5f4729b9d7bf34debd82831c5f690571ab51cc38ff750ea76513a58f78f \
+    --hash=sha256:d500eb491da535d28a57d04902edf9d26790ef1f5272bf4fbeb63dcac3f695f9
