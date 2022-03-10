@@ -1,6 +1,7 @@
 from fastapi import Depends, FastAPI, Header, HTTPException
 from app.liveness import liveness
 from app.workflow import wf_router
+from app.workflow import wf_service
 
 app = FastAPI(
     title="Orchestratr API",
