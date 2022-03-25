@@ -22,4 +22,4 @@ async def start_topology_wf(request: Topology):
 @router.post("/{project_name}/{flow_name}")
 async def prefect_run_flow(project_name, flow_name):
     run_id = prefect_flow(project_name, flow_name)
-    return run_id
+    return {"flow_run_id": run_id}
