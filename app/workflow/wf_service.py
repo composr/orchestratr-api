@@ -44,9 +44,18 @@ def prefect_flow(project_name, flow_name):
         '''
 
         project_id = client.graphql(project_id_by_name, variables={'project_name': project_name})
-        id = client.graphql(flow_id_by_name, variables={'name': flow_name, 'project_id': project_id['data']['project'][0]['id']})
+        print("First client call return value:- ", project_id)
+        
+        #id = client.graphql(flow_id_by_name, variables={'name': flow_name, 'project_id': project_id['data']['project'][0]['id']})
+        #print("Second client call return value:- ", id)
+
+        id = project_id
+        print(id)
 
         flow_run = client.create_flow_run(flow_id = id['data']['flow'][0]['id'])
+        #flow_run = client.create_flow_run(flow_id = 1)
+        print("Flow run mocked value:- ", flow_run)
+
         return flow_run
     
     except:

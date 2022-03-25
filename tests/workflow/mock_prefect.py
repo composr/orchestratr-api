@@ -11,8 +11,7 @@ loop = asyncio.get_event_loop()
 
 class test_prefect_flow(unittest.TestCase):
     @patch('app.workflow.wf_router.prefect_flow')
-    def test_prefect(self, response_mock):        
-        response_mock = Mock()
+    def test_prefect(self, response_mock):
         response_mock.return_value = 'flow_run_id_value'
         print(response_mock.return_value)
 
