@@ -19,6 +19,10 @@ prefect = "^1.1.0"
 dynaconf = "^3.1.7"
 mock = "^4.0.3"
 pytest-mock = "^3.7.0"
+python-terraform = "^0.10.1"
+azure-storage-blob = "^12.11.0"
+azure-mgmt-storage = "^19.1.0"
+azure-mgmt-resource = "^21.0.0"
 
 [tool.poetry.dev-dependencies]
 

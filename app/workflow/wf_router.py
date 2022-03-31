@@ -4,6 +4,7 @@ from fastapi.responses import PlainTextResponse
 from .wf_models import StartWorkflowRequest, WorkflowResponse
 from app.topology.topology_models import Topology
 from .wf_service import prefect_flow
+from app.tempdelete.prefectterraform import temp_prefect_run
 
 router = APIRouter()
 
@@ -19,7 +20,14 @@ async def start_wf(request: StartWorkflowRequest):
 async def start_topology_wf(request: Topology):
     return WorkflowResponse(correlation_id = '', namespace = request.namespace, status = "In Progress")
 
+#@router.post("/{project_name}/{flow_name}")
+#async def prefect_run_flow(project_name, flow_name):
+#    run_id = prefect_flow(project_name, flow_name)
+#    return {"flow_run_id": run_id}
+
 @router.post("/{project_name}/{flow_name}")
 async def prefect_run_flow(project_name, flow_name):
+    temp_prefect_run(project_name, flow_name)
+    #return test
     run_id = prefect_flow(project_name, flow_name)
     return {"flow_run_id": run_id}
